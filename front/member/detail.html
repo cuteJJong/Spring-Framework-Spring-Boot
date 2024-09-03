@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+window.onload = () => {
+  let loginId = localStorage.getItem('loginId');
+  let req = new XMLHttpRequest(); 
+	req.onload = () => {
+    let obj = JSON.parse(req.responseText);
+    let txt = '<h3>';
+      txt += 'id:'+obj.dto.id+'<br/>';
+      txt += 'name:'+obj.dto.name+'<br/>';
+      txt += 'email:'+obj.dto.email+'<br/>';
+      txt += 'type:'+obj.dto.type+'<br/>';
+      txt += '</h3>';
+
+      document.getElementById('res').innerHTML = txt;
+	}
+	req.open('get', 'http://localhost:8081/members/'+loginId);
+	req.send();
+}
+const b = () => {
+  let loginId = localStorage.getItem('loginId');
+	let req = new XMLHttpRequest(); 
+	req.onload = () => {
+    let obj = JSON.parse(req.responseText);
+    let txt = '<h3>';
+      txt += 'id:'+obj.dto.id+'<br/>';
+      txt += 'name:'+obj.dto.name+'<br/>';
+      txt += 'email:'+obj.dto.email+'<br/>';
+      txt += 'type:'+obj.dto.type+'<br/>';
+      txt += '</h3>';
+
+      document.getElementById('res').innerHTML = txt;
+	}
+	
+  let pwd = document.getElementById("pwd").value;
+  let params = "id="+loginId+"&pwd="+pwd;
+
+	req.open('put', 'http://localhost:8081/members');
+  req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	req.send(params);
+}
+
+</script>
+</head>
+<body>
+<h3>내 정보</h3>
+<div id="res"></div>
+패스워드 수정<br/>
+<input type="password" id="pwd">
+<input type="button" value="수정" onclick="b()">
+</body>
+</html>

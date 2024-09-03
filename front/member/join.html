@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+const a = () => {
+	let req = new XMLHttpRequest(); 
+	req.onload = () => {
+    let obj = JSON.parse(req.responseText);
+    let msg = '중복된 아이디';
+    if(obj.dto==null){
+      msg = '사용가능한 아이디';
+    }
+		let res = document.getElementById("res");
+		res.innerHTML = msg;
+	}
+	let id = document.getElementById("id").value;
+	req.open('get', 'http://localhost:8081/members/'+id);
+	req.send();
+}
+const b = () => {
+	let req = new XMLHttpRequest(); 
+	req.onload = () => {
+    let obj = JSON.parse(req.responseText);
+    if(obj.dto != null){
+      alert(obj.dto.id+"님 회원가입 완료");
+      location.href = "../index.html";
+    }
+	}
+	let id = document.getElementById("id").value;
+  let pwd = document.getElementById("pwd").value;
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let type = document.getElementById("type").value;
+
+  let params = "id="+id+"&pwd="+pwd+"&name="+name+"&email="+email+"&type="+type;
+  alert(params);
+	req.open('post', 'http://localhost:8081/members');
+  req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	req.send(params);
+}
+</script>
+</head>
+<body>
+<h3>회원가입</h3>
+<table border="1">
+<tr><th>ID</th>
+	<td>
+		<input type="text" name="id" id="id">
+		<input type="button" value="중복체크" onclick="a()"><div id="res"></div>
+	</td>
+</tr>
+<tr><th>PWD</th><td><input type="password" id="pwd"></td></tr>
+<tr><th>NAME</th><td><input type="text" id="name"></td></tr>
+<tr><th>EMAIL</th><td><input type="email" id="email"></td></tr>
+<tr><th>TYPE</th>
+	<td>
+		<select id="type">
+			<option>구매자</option>
+			<option>판매자</option>
+		</select>
+	</td>
+</tr>
+<tr><th>JOIN</th><td><input type="button" value="가입" onclick="b()"></td></tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+  const a = () => {
+		let req = new XMLHttpRequest(); 
+		req.onload = () => {//요청 응답오면 자동 호출될 핸들러 등록
+			let obj = JSON.parse(req.responseText);
+      if(obj.flag){
+        alert('로그인성공');
+        localStorage.setItem("flag", true);
+        localStorage.setItem("loginId", obj.loginId);
+        localStorage.setItem("type", obj.type);    
+      }
+      location.href = "../index.html";
+		}
+		let id = document.getElementById("id").value;
+		let pwd = document.getElementById("pwd").value;
+		let params = 'id='+id+'&pwd='+pwd;
+		req.open('get', 'http://localhost:8081/members/login?'+params);
+		
+		//요청 전송
+		req.send();
+  }
+</script>
+</head>
+<body>
+<h3>로그인 폼</h3>
+<table border="1">
+<tr><th>ID</th><td><input type="text" id="id"></td></tr>
+<tr><th>PWD</th><td><input type="password" id="pwd"></td></tr>
+<tr><th>LOGIN</th><td><input type="button" value="로그인" onclick="a()"></td></tr>
+</table>
+</body>
+</html>
