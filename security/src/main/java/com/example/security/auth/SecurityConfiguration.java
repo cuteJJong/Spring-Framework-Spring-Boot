@@ -36,7 +36,7 @@ public class SecurityConfiguration {
                         //forward 모두 허용
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll() //네트워크 도메인, ip 허용 코드 작성한 내용 적용
                         .requestMatchers("/", "/join", "/autherror", "/loginform","/login").permitAll()
-                        .requestMatchers("/auth").authenticated())
+                        .requestMatchers("/auth/**", "/index_**").authenticated())
                 //로그인 폼 설정
                 .formLogin((login) -> login
                         .loginPage("/loginform")    //로그인 폼을 주는 요청 url
