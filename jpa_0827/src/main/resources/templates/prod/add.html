@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h3>상품등록</h3>
+<form action="/prod/add" method="post" enctype="multipart/form-data">
+<table border="1">
+<tr><th>name</th><td><input type="text" name="name"></td>
+<tr><th>price</th><td><input type="number" name="price"></td>
+<tr><th>amount</th><td><input type="number" name="amount"></td>
+<tr><th>상품 이미지</th><td><input type="file" name="f"></td>
+<tr><th>seller</th>
+<td><input type="text" name="seller" th:value="${session.loginId}" readonly></td>
+</table>
+<input type="submit" value="등록">
+</form>
+</body>
+</html>
