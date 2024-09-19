@@ -11,6 +11,10 @@ public class ConveniencePayService {    //편결이
     private final MoneyAdapter moneyAdapter = new MoneyAdapter();
     private final CardAdapter cardAdapter = new CardAdapter();
 
+    //현금과 카드, 편의점의 종류 interface로 구현체를 분리시켰기에 수정이 편하다.
+    //private final DiscountInterface discountInterface = new DiscountByPayMethod();
+    private final DiscountInterface discountInterface = new DiscountByConveniecne();
+
     //PayRequest를 받아서 PayResponse를 던진다.
     public PayResponse pay(PayRequest payRequest) {
         PaymentInterface paymentInterface;
@@ -22,7 +26,8 @@ public class ConveniencePayService {    //편결이
             paymentInterface = moneyAdapter;
         }
 
-        PaymentResult payment = paymentInterface.payment(payRequest.getPayAmount());
+        Integer discountedAmount = discountInterface.getDiscountedAmount(payRequest);
+        PaymentResult payment = paymentInterface.payment(discountedAmount);
 
         if (payment == PaymentResult.PAYMENT_FAIL) {
             return new PayResponse(PayResult.FAIL, 0);
@@ -40,7 +45,7 @@ public class ConveniencePayService {    //편결이
         //Success Case(Only One)
 
         // SUCCESS Case(Only case)
-        return new PayResponse(PayResult.SUCCESS, payRequest.getPayAmount());
+        return new PayResponse(PayResult.SUCCESS, discountedAmount);
     }
 
     public PayCancelResponse payCancel(PayCancelRequest payCancelRequest) {
