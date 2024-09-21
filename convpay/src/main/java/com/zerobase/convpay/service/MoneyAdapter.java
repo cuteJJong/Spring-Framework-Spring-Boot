@@ -1,9 +1,6 @@
 package com.zerobase.convpay.service;
 
-import com.zerobase.convpay.type.CancelPaymentResult;
-import com.zerobase.convpay.type.MoneyUseCancelResult;
-import com.zerobase.convpay.type.MoneyUseResult;
-import com.zerobase.convpay.type.PaymentResult;
+import com.zerobase.convpay.type.*;
 
 //interface 상속 implements
 public class MoneyAdapter implements PaymentInterface{
@@ -23,6 +20,11 @@ public class MoneyAdapter implements PaymentInterface{
             return MoneyUseCancelResult.MONEY_USE_CANCEL_FAIL;
         }
         return MoneyUseCancelResult.MONEY_USE_CANCEL_SUCCESS;
+    }
+
+    @Override
+    public PayMethodType getPayMethodType() {
+        return PayMethodType.MONEY;
     }
 
     //implements : 부모의 메서드를 반드시 재정의(오버라이딩) 해줘야한다.
